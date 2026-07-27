@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Market Stall design tokens
+   A greengrocer's stall, not a template. Cool paper (not warm
+   cream), turmeric accent (not terracotta), produce colors that
+   tag each category the way a real stall tags its crates.
+------------------------------------------------------------------ */
+:root {
+  --color-ink: #1b2a20;
+  /* primary text, near-black bottle green */
+  --color-paper: #eef3ea;
+  /* page background, cool mint-tinted paper */
+  --color-paper-raised: #f7faf4;
+  /* card surfaces, a touch lighter than paper */
+  --color-line: #d3dcc9;
+  /* hairlines, dividers, card borders */
+  --color-accent: #e8a93a;
+  /* turmeric mustard, primary CTA */
+  --color-accent-ink: #4a3006;
+  /* text sitting on the accent color */
+
+  /* Produce colors — auto-assigned per category */
+  --color-veg: #4c7a50;
+  --color-fruit: #8e3b5d;
+  --color-cake: #b5762d;
+  --color-biscuit: #a98424;
+  --color-stall5: #3b6e86;
+  --color-stall6: #7a4a9e;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-paper-raised: var(--color-paper-raised);
+  --color-line: var(--color-line);
+  --color-accent: var(--color-accent);
+  --color-accent-ink: var(--color-accent-ink);
+  --color-veg: var(--color-veg);
+  --color-fruit: var(--color-fruit);
+  --color-cake: var(--color-cake);
+  --color-biscuit: var(--color-biscuit);
+  --color-stall5: var(--color-stall5);
+  --color-stall6: var(--color-stall6);
+
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-plex-mono);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+/* Signature element: the price ticket.
+   A die-cut tag shape with a small string-hole dot, set in mono
+   like a scale readout. Reused on product cards and the cart. */
+.price-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem 0.2rem 0.95rem;
+  font-family: var(--font-mono), monospace;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+  white-space: nowrap;
+}
+
+.price-tag::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-accent-ink);
+  opacity: 0.55;
+  transform: translateY(-50%);
+}
+
+/* Accessibility floor */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
