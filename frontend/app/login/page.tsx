@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -75,7 +77,7 @@ export default function LoginPage() {
         <div className="mt-5 border-t border-line pt-5 text-center">
           <p className="mb-3 font-mono text-xs uppercase tracking-wide text-ink/40">Or continue with</p>
           <a
-            href="http://localhost:5000/api/auth/google"
+            href={`${API_URL}/auth/google`}
             className="inline-block rounded-full border-2 border-ink px-5 py-2 font-display text-xs uppercase tracking-wide transition-colors hover:bg-ink hover:text-paper"
           >
             Sign in with Google

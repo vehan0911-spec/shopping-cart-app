@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Category {
   _id: string;
   name: string;
@@ -27,7 +29,7 @@ export default function AdminCategories() {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/admin/categories', {
+      const res = await fetch(`${API_URL}/admin/categories`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       if (res.ok) setCategories(await res.json());
@@ -50,7 +52,7 @@ export default function AdminCategories() {
     e.preventDefault();
     setSaving(true);
     setError('');
-    const url = editing ? `http://localhost:5000/api/admin/categories/${editing._id}` : 'http://localhost:5000/api/admin/categories';
+    const url = editing ? `${API_URL}/admin/categories/${editing._id}` : `${API_URL}/admin/categories`;
     const method = editing ? 'PUT' : 'POST';
     try {
       const res = await fetch(url, {
@@ -67,7 +69,7 @@ export default function AdminCategories() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/categories/${id}`, {
+      const res = await fetch(`${API_URL}/admin/categories/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token()}` },
       });

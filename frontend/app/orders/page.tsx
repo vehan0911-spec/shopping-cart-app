@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Order {
   _id: string;
   totalAmount: number;
@@ -31,7 +33,7 @@ export default function OrdersPage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/orders', {
+        const response = await fetch(`${API_URL}/orders`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },

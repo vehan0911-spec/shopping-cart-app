@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Stats {
   totalProducts: number;
   totalOrders: number;
@@ -26,7 +28,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/admin/stats', {
+        const res = await fetch(`${API_URL}/admin/stats`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
         });
         if (res.ok) setStats(await res.json());

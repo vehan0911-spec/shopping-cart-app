@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 interface Order {
   _id: string;
@@ -26,7 +28,7 @@ interface Order {
   createdAt: string;
 }
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = searchParams.get('orderId');
@@ -50,7 +52,7 @@ export default function OrderConfirmationPage() {
 
     const fetchOrder = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+        const response = await fetch(`${API_URL}/orders/${orderId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
@@ -149,5 +151,13 @@ export default function OrderConfirmationPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>Loading order details...</div>}>
+      <OrderConfirmationInner />
+    </Suspense>
   );
 }

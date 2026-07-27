@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Product {
   _id: string;
   name: string;
@@ -33,7 +35,7 @@ export default function AdminProducts() {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/admin/products', {
+      const res = await fetch(`${API_URL}/admin/products`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       if (res.ok) setProducts(await res.json());
@@ -63,7 +65,7 @@ export default function AdminProducts() {
     e.preventDefault();
     setSaving(true);
     setError('');
-    const url = editing ? `http://localhost:5000/api/admin/products/${editing._id}` : 'http://localhost:5000/api/admin/products';
+    const url = editing ? `${API_URL}/admin/products/${editing._id}` : `${API_URL}/admin/products`;
     const method = editing ? 'PUT' : 'POST';
     try {
       const res = await fetch(url, {
@@ -80,7 +82,7 @@ export default function AdminProducts() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/products/${id}`, {
+      const res = await fetch(`${API_URL}/admin/products/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token()}` },
       });

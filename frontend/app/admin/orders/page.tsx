@@ -4,6 +4,8 @@ import React from 'react';
 
 import { useState, useEffect, useCallback } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface Order {
   _id: string;
   userId: { name: string; email: string } | null;
@@ -42,7 +44,7 @@ export default function AdminOrders() {
 
   const fetchOrders = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/admin/orders', {
+      const res = await fetch(`${API_URL}/admin/orders`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       if (res.ok) setOrders(await res.json());
@@ -61,7 +63,7 @@ export default function AdminOrders() {
   const updateStatus = async (id: string, field: 'orderStatus' | 'paymentStatus', value: string) => {
     setUpdatingId(id);
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/orders/${id}/status`, {
+      const res = await fetch(`${API_URL}/admin/orders/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
         body: JSON.stringify({ [field]: value }),

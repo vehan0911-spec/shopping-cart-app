@@ -15,6 +15,8 @@ import {
 // Initialize Stripe with publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 interface ShippingAddress {
   fullName: string;
   address: string;
@@ -63,7 +65,7 @@ function AddressForm({
 
     try {
       // Create order
-      const orderRes = await fetch('http://localhost:5000/api/orders', {
+      const orderRes = await fetch(`${API_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ function AddressForm({
       }
 
       // Create Stripe payment intent
-      const paymentRes = await fetch('http://localhost:5000/api/orders/create-payment', {
+      const paymentRes = await fetch(`${API_URL}/orders/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
